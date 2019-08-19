@@ -18,11 +18,61 @@ Completed:
 
 * `trace()`: Prints the CPU state for debugging
 
+<br>
+
 To Do:
 
-* `__init__()`: Construct a CPU with `self.ram`, `self.pc` and `self.reg` properties, and a function called `ram_read()`
+* `__init__()`: Construct a CPU with `self.ram`, `self.pc` and `self.reg` properties
 
-* `run()`: Runs the CPU
+* Add list properties to CPU to hold 256 bytes of memory and 8 general-purpose registers using pre-set lists. 
+
+- One register called `MAR` (Memory Address Register) to store the address that is being read or written to
+
+- One register called `MDR` (Memory Data Register) to store the data that was read or to be written
+
+- One register called `PC` for storing memory addresses.
+
+- One register called `IR` (Instruction Register) that stores results.
+
+<br>
+
+* Add function called `ram_read()` that accepts the address to read and returns the value stored there. Use MAR and MDR registers.
+
+Needs to read the bytes at `PC+1` and `PC+2` as arguments.
+
+* Add function called `ram_write()` that accepts a value to write and the address to write it to. Use MAR and MDR registers.
+
+<br>
+
+* `run()`: Runs the CPU by reading the memory address that is stored in register `PC`, while storing that result in `IR` (the instruction register).
+
+Then performs the actions needed for each command using an `if-elif` cascade (or other method).
+
+Ultimately updates the `PC` register for the next iteration of the loop.
+
+Bits 6-7 indicate the number of bytes each command will use.
+
+Exit the loop if a `HLT` command is received
+
+<br>
+
+* `HLT` command: Like `exit()`, this will stop the program from running. Define it within `cpu.py` to reference it by name.
+
+<br>
+
+* `LDI` commnd: Sets a specific register to a specific value
+
+<br>
+
+* `PRN` command: Prints the numeric value stored at a given register.
+
+Test all of the above works by printing `8` to the console with the hard coded program.
+
+<br>
+
+## DAY II PROJECT
+
+Picks up at Step 7
 
 <br>
 <br>
