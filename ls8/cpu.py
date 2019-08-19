@@ -7,7 +7,44 @@ class CPU:
 
     def __init__(self):
         """Construct a new CPU."""
-        pass
+        # Each index is a byte
+        # RAM stores 256 bytes
+        self.ram = [0] * 256
+
+        # Each index in reg is a register
+        self.reg = [0] * 8
+
+        # Store the Program Counter
+        self.PC = self.reg[0]
+        # Store the Instruction Register
+        self.IR = self.reg[1]
+        # Store the Memory Address Register
+        self.MAR = self.reg[2]
+        # Store the Memory Data Register
+        self.MDR = self.reg[3]
+        # Store the Flags
+        self.FL = self.reg[4]
+
+        # self.reg[5] Reserved: Interrupt Mask
+        # self.reg[6] Reserved: Interrupt Status
+        # self.reg[7] Reserved: Stack Pointer
+        # self.reg[8] Unassigned
+
+    def ram_read(self, address):
+        # MAR stores the address of what to read
+        self.MAR = address
+        # MDR stores the data read
+        self.MDR = self.ram[self.MAR]
+
+        return self.MDR
+
+    def ram_write(self, value, address):
+        # MAR stores the address of where to write
+        self.MAR = address
+        # MDR stores the value to write
+        self.MDR = value
+        # Set that data to the address in RAM
+        self.ram[self.MAR] = self.MDR
 
     def load(self):
         """Load a program into memory."""
@@ -47,12 +84,12 @@ class CPU:
         """
 
         print(f"TRACE: %02X | %02X %02X %02X |" % (
-            self.pc,
+            self.PC,
             #self.fl,
             #self.ie,
-            self.ram_read(self.pc),
-            self.ram_read(self.pc + 1),
-            self.ram_read(self.pc + 2)
+            self.ram_read(self.PC),
+            self.ram_read(self.PC + 1),
+            self.ram_read(self.PC + 2)
         ), end='')
 
         for i in range(8):
