@@ -14,6 +14,8 @@ where something is in memory), computations, and instructions. With 8 bits, our
 CPU has a total of 256 bytes of memory and can only compute values up to 255.
 The CPU could support 256 instructions, as well, but we won't need them.
 
+> (8 bits * 4 bytes) * 8 wires = 256 bytes?  
+
 For starters, we'll execute code that stores the value 8 in a register,
 then prints it out:
 
