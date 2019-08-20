@@ -116,13 +116,13 @@ Machine code:
 
 <br>
 
-- [ ] : Now implement a `MUL` function under the `alu()` built in class method that will multiply two values (at different registers), and stores the result in register A.
+- [X] : Now implement a `MUL` function under the `alu()` built in class method that will multiply two values (at different registers), and stores the result in register A.
 
 It expects two address parameters.
 
 <br>
 
-- [ ] : Test with `mult.ls8`
+- [X] : Test with `mult.ls8`
 
 <br>
 <br>
