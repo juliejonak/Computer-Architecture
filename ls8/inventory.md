@@ -55,7 +55,7 @@ To Do:
 
 <br>
 
-* [ ] : `run()`: Runs the CPU by reading the memory address that is stored in register `PC`, while storing that result in `IR` (the instruction register).
+* [X] : `run()`: Runs the CPU by reading the memory address that is stored in register `PC`, while storing that result in `IR` (the instruction register).
 
 Then performs the actions needed for each command using an `if-elif` cascade (or other method).
 
