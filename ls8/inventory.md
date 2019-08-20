@@ -132,6 +132,29 @@ It expects two address parameters.
 
 <br>
 <br>
+
+## DAY THREE TASKS
+
+- [ ] : Implement a stack system using `push` and `pop` commands.
+
+Make sure to save values in the portion of `self.ram` that is allocated for the stack.
+
+Use the stack pointer to modify the correct block of memory.
+
+<br>
+
+- [ ] : Test by running `python3 ls8.py examples/stack.ls8`
+
+Expected output:
+
+```
+2
+4
+1
+```
+
+<br>
+<br>
 <br>
 
 There is also an `examples` directory that contains multiple `ls8` files for reference:
