@@ -67,7 +67,7 @@ Exit the loop if a `HLT` command is received
 
 <br>
 
-* [ ] : `HLT` command: Like `exit()`, this will stop the program from running. Define it within `cpu.py` to reference it by name.
+* [X] : `HLT` command: Like `exit()`, this will stop the program from running. Define it within `cpu.py` to reference it by name.
 
 Machine code:
 ```
@@ -77,7 +77,7 @@ Machine code:
 
 <br>
 
-* [ ] : `LDI` commnd: Sets a specific register to a specific value
+* [X] : `LDI` commnd: Sets a specific register to a specific value
 
 ```
 10000010 00000rrr iiiiiiii
@@ -86,7 +86,7 @@ Machine code:
 
 <br>
 
-* [ ] : `PRN` command: Prints the decimal numeric value stored at a given register.
+* [X] : `PRN` command: Prints the decimal numeric value stored at a given register.
 
 ```
 01000111 00000rrr
@@ -95,7 +95,7 @@ Machine code:
 
 <br>
 
-* [ ] : Test all of the above works by printing `8` to the console with the hard coded program.
+* [X] : Test all of the above works by printing `8` to the console with the hard coded program.
 
 <br>
 <br>

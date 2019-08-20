@@ -2,7 +2,9 @@
 
 import sys
 
-HLT = '00000001'
+HLT = 0b00000001
+LDI = 0b10000010
+PRN = 0b01000111
 
 class CPU:
     """Main CPU class."""
@@ -62,6 +64,7 @@ class CPU:
             self.ram[address] = instruction
             address += 1
 
+        print(self.ram)
 
     def alu(self, op, reg_a, reg_b):
         """ALU operations."""
@@ -94,7 +97,6 @@ class CPU:
 
     def run(self):
         """Run the CPU."""
-        IR = self.ram[self.PC]
 
         operand_a = self.ram[self.PC + 1]
         operand_b = self.ram[self.PC + 2]
@@ -104,18 +106,22 @@ class CPU:
         running = True
 
         while running:
+            IR = self.ram[self.PC]
             print(f"Current IR: {IR}, current PC: {self.PC}")
+
             if IR == HLT:
                 # halt the program
                 running = False
 
-            elif IR == "LDI":
+            elif IR == LDI:
                 # sets register to a value
                 self.reg[operand_a] = operand_b
+                self.PC += 2
 
-            elif IR == "PRN":
+            elif IR == PRN:
                 # print the value at a register
                 print(self.reg[operand_a])
+                self.PC += 1
 
             else:
                 print(f"Unknown command: {IR}")
@@ -127,4 +133,4 @@ class CPU:
 test = CPU()
 print(test.load())
 print(f"\n")
-print(test.trace())
+print(test.run())
