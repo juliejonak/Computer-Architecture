@@ -22,14 +22,13 @@ class CPU:
         # Store the Program Counter
         self.PC = self.reg[0]
 
-        # Instruction Register: self.reg[1]
-        # Memory Address Register: self.reg[2]
-        # Memory Data Register: self.reg[3]
-        # Flags: self.reg[4]
-        # self.reg[5] Reserved: Interrupt Mask
-        # self.reg[6] Reserved: Interrupt Status
-        # self.reg[7] Reserved: Stack Pointer
-        # self.reg[8] Unassigned
+        # Store operation handling
+        self.commands = {
+            0b00000001: self.hlt,
+            0b10000010: self.ldi,
+            0b01000111: self.prn,
+            0b10100010: self.mul
+        }
 
     def __repr__(self):
         return f"RAM: {self.ram} \n Register: {self.reg}"
@@ -43,6 +42,24 @@ class CPU:
         # MAR stores the address of where to write and MDR stores the value to write
         # self.ram[self.MAR] = self.MDR
         self.ram[address] = value
+
+    def hlt(self, operand_a, operand_b):
+        return (0, False)
+
+    def ldi(self, operand_a, operand_b):
+        # Sets register to value
+        self.reg[operand_a] = operand_b
+        return (3, True)
+
+    def prn(self, operand_a, operand_b):
+        # print the value at a register
+        print(self.reg[operand_a])
+        return (2, True)
+    
+    def mul(self, operand_a, operand_b):
+        # Multiply two values and store in first register
+        self.alu("MUL", operand_a, operand_b)
+        return (3, True)
 
     def load(self, program):
         """Load a program into memory."""
@@ -115,28 +132,13 @@ class CPU:
             operand_a = self.ram_read(self.PC + 1)
             operand_b = self.ram_read(self.PC + 2)
 
-            # print(f"Operand A: {operand_a} Operand B: {operand_b}")
-            # print(f"Register: {self.reg}")
+            try:
+                operation_output = self.commands[IR](operand_a, operand_b)
 
-            if IR == HLT:
-                # halt the program
-                running = False
+                running = operation_output[1]
+                self.PC += operation_output[0]
 
-            elif IR == LDI:
-                # sets register to a value
-                self.reg[operand_a] = operand_b
-                self.PC += 2
-
-            elif IR == PRN:
-                # print the value at a register
-                print(self.reg[operand_a])
-                self.PC += 1
-
-            elif IR == MUL:
-                self.PC += self.alu("MUL", operand_a, operand_b)
-
-            else:
+            except:
                 print(f"Unknown command: {IR}")
                 sys.exit(1)
-            
-            self.PC += 1
+

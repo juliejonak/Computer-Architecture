@@ -125,6 +125,12 @@ It expects two address parameters.
 - [X] : Test with `mult.ls8`
 
 <br>
+
+### STRETCH
+
+- [X] : Clean up `run()` with a branch table
+
+<br>
 <br>
 <br>
 
