@@ -43,10 +43,21 @@ class CPU:
         # self.ram[self.MAR] = self.MDR
         self.ram[address] = value
 
-    def load(self):
+    def load(self, program):
         """Load a program into memory."""
 
-        address = 0
+        print(f"Found {program} -- will run.")
+
+        try:
+            address = 0
+
+        except FileNotFoundError:
+            print(f"{program} not found")
+            sys.exit(2)
+        
+        if len(sys.argv) != 2:
+            print(f"Please format the command like so: \n python3 ls8.py <filename>", file=sys.stderr)
+            sys.exit(1)
 
         # For now, we've just hardcoded a program:
 
@@ -63,8 +74,6 @@ class CPU:
         for instruction in program:
             self.ram[address] = instruction
             address += 1
-
-        print(self.ram)
 
     def alu(self, op, reg_a, reg_b):
         """ALU operations."""
@@ -107,7 +116,7 @@ class CPU:
 
         while running:
             IR = self.ram[self.PC]
-            print(f"Current IR: {IR}, current PC: {self.PC}")
+            # print(f"Current IR: {IR}, current PC: {self.PC}")
 
             if IR == HLT:
                 # halt the program
@@ -128,9 +137,3 @@ class CPU:
                 sys.exit(1)
             
             self.PC += 1
-
-
-test = CPU()
-print(test.load())
-print(f"\n")
-print(test.run())

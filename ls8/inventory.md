@@ -120,6 +120,9 @@ Machine code:
 
 It expects two address parameters.
 
+<br>
+
+- [ ] : Test with `mult.ls8`
 
 <br>
 <br>
