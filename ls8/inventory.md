@@ -102,17 +102,17 @@ Machine code:
 
 ## DAY II PROJECT
 
- - [ ] : Un-hardcode the program in `cpu.py` and `ls8.py` so the program can be specified in the command line
+ - [X] : Un-hardcode the program in `cpu.py` and `ls8.py` so the program can be specified in the command line
 
  Remember to add error handling if the user doesn't input the correct arguments (or number of them)
 
  * Get sys.argv
  * In `load()`, parse file for commands and addresses
- * Store to RAM by convertng address in binary to decimal
+ * Store to RAM by converting address in binary to decimal
 
  <br>
 
- - [ ] : Test with `print8.ls8`
+ - [X] : Test with `print8.ls8`
 
 <br>
 
