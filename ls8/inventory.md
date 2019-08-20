@@ -102,8 +102,26 @@ Machine code:
 
 ## DAY II PROJECT
 
-Picks up at Step 7
+ - [ ] : Un-hardcode the program in `cpu.py` and `ls8.py` so the program can be specified in the command line
 
+ Remember to add error handling if the user doesn't input the correct arguments (or number of them)
+
+ * Get sys.argv
+ * In `load()`, parse file for commands and addresses
+ * Store to RAM by convertng address in binary to decimal
+
+ <br>
+
+ - [ ] : Test with `print8.ls8`
+
+<br>
+
+- [ ] : Now implement a `MUL` function under the `alu()` built in class method that will multiply two values (at different registers), and stores the result in register A.
+
+It expects two address parameters.
+
+
+<br>
 <br>
 <br>
 
