@@ -22,6 +22,9 @@ class CPU:
         # Store the Program Counter
         self.PC = self.reg[0]
 
+        # Store a Stack Pointer
+        self.SP = 7
+
         # Store operation handling
         self.commands = {
             0b00000001: self.hlt,
