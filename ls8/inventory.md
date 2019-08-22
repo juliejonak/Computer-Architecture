@@ -135,7 +135,7 @@ It expects two address parameters.
 
 ## DAY THREE TASKS
 
-- [ ] : Implement a stack system using `push` and `pop` commands.
+- [x] : Implement a stack system using `push` and `pop` commands.
 
 Make sure to save values in the portion of `self.ram` that is allocated for the stack.
 
@@ -143,7 +143,7 @@ Use the stack pointer to modify the correct block of memory.
 
 <br>
 
-- [ ] : Test by running `python3 ls8.py examples/stack.ls8`
+- [x] : Test by running `python3 ls8.py examples/stack.ls8`
 
 Expected output:
 
