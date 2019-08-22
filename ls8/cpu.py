@@ -5,6 +5,7 @@ import sys
 HLT = 0b00000001
 LDI = 0b10000010
 PRN = 0b01000111
+MUL = 0b10100010
 
 class CPU:
     """Main CPU class."""
@@ -21,14 +22,13 @@ class CPU:
         # Store the Program Counter
         self.PC = self.reg[0]
 
-        # Instruction Register: self.reg[1]
-        # Memory Address Register: self.reg[2]
-        # Memory Data Register: self.reg[3]
-        # Flags: self.reg[4]
-        # self.reg[5] Reserved: Interrupt Mask
-        # self.reg[6] Reserved: Interrupt Status
-        # self.reg[7] Reserved: Stack Pointer
-        # self.reg[8] Unassigned
+        # Store operation handling
+        self.commands = {
+            0b00000001: self.hlt,
+            0b10000010: self.ldi,
+            0b01000111: self.prn,
+            0b10100010: self.mul
+        }
 
     def __repr__(self):
         return f"RAM: {self.ram} \n Register: {self.reg}"
@@ -43,35 +43,62 @@ class CPU:
         # self.ram[self.MAR] = self.MDR
         self.ram[address] = value
 
-    def load(self):
+    def hlt(self, operand_a, operand_b):
+        return (0, False)
+
+    def ldi(self, operand_a, operand_b):
+        # Sets register to value
+        self.reg[operand_a] = operand_b
+        return (3, True)
+
+    def prn(self, operand_a, operand_b):
+        # print the value at a register
+        print(self.reg[operand_a])
+        return (2, True)
+    
+    def mul(self, operand_a, operand_b):
+        # Multiply two values and store in first register
+        self.alu("MUL", operand_a, operand_b)
+        return (3, True)
+
+    def load(self, program):
         """Load a program into memory."""
+        try:
+            address = 0
 
-        address = 0
+            with open(program) as f:
+                for line in f:
+                    comment_split = line.split("#")
 
-        # For now, we've just hardcoded a program:
+                    number = comment_split[0].strip()
 
-        program = [
-            # From print8.ls8
-            0b10000010, # LDI R0,8
-            0b00000000,
-            0b00001000,
-            0b01000111, # PRN R0
-            0b00000000,
-            0b00000001, # HLT
-        ]
+                    if number == "":
+                        continue
+                    
+                    value = int(number, 2)
 
-        for instruction in program:
-            self.ram[address] = instruction
-            address += 1
+                    self.ram_write(value, address)
 
-        print(self.ram)
+                    address += 1
+
+        except FileNotFoundError:
+            print(f"{program} not found")
+            sys.exit(2)
+        
+        if len(sys.argv) != 2:
+            print(f"Please format the command like so: \n python3 ls8.py <filename>", file=sys.stderr)
+            sys.exit(1)
 
     def alu(self, op, reg_a, reg_b):
         """ALU operations."""
 
         if op == "ADD":
             self.reg[reg_a] += self.reg[reg_b]
-        #elif op == "SUB": etc
+
+        elif op == "MUL":
+            self.reg[reg_a] = (self.reg[reg_a]) * (self.reg[reg_b])
+            return 2
+
         else:
             raise Exception("Unsupported ALU operation")
 
@@ -97,40 +124,21 @@ class CPU:
 
     def run(self):
         """Run the CPU."""
-
-        operand_a = self.ram[self.PC + 1]
-        operand_b = self.ram[self.PC + 2]
-
-        print(f"Operand A: {operand_a} Operand B: {operand_b}")
-
         running = True
 
         while running:
             IR = self.ram[self.PC]
-            print(f"Current IR: {IR}, current PC: {self.PC}")
 
-            if IR == HLT:
-                # halt the program
-                running = False
+            operand_a = self.ram_read(self.PC + 1)
+            operand_b = self.ram_read(self.PC + 2)
 
-            elif IR == LDI:
-                # sets register to a value
-                self.reg[operand_a] = operand_b
-                self.PC += 2
+            try:
+                operation_output = self.commands[IR](operand_a, operand_b)
 
-            elif IR == PRN:
-                # print the value at a register
-                print(self.reg[operand_a])
-                self.PC += 1
+                running = operation_output[1]
+                self.PC += operation_output[0]
 
-            else:
+            except:
                 print(f"Unknown command: {IR}")
                 sys.exit(1)
-            
-            self.PC += 1
 
-
-test = CPU()
-print(test.load())
-print(f"\n")
-print(test.run())
